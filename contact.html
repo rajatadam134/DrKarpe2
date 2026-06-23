@@ -21,6 +21,7 @@
           <li><a href="about.html">About Us</a></li>
           <li><a href="treatments.html">Treatments</a></li>
           <li><a href="gallery.html">Smile Gallery</a></li>
+          <li><a href="blog.html">Blog</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
         <div class="nav-cta">
@@ -36,6 +37,7 @@
       <a href="about.html">About Us</a>
       <a href="treatments.html">Treatments</a>
       <a href="gallery.html">Smile Gallery</a>
+      <a href="blog.html">Blog</a>
       <a href="contact.html">Contact</a>
       <a href="contact.html#book" class="btn btn-primary">Book Appointment</a>
     </div>
@@ -162,26 +164,31 @@
           <p class="body-md" style="margin-top: 0.5rem;">Fill out this form and our desk receptionist will call you to confirm your exact appointment slot within business hours.</p>
         </div>
 
-        <form id="appt-form" action="#" method="POST">
+        <form id="appt-form" action="https://formsubmit.co/ukuser05unknown@gmail.com" method="POST">
+          <!-- FormSubmit Configuration -->
+          <input type="hidden" name="_subject" value="New Appointment Request - Dr. Karpe's Dental Clinic">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="true">
+
           <div class="form-grid">
             <div class="form-group">
               <label for="name" class="form-label">Full Name <span class="req">*</span></label>
-              <input type="text" id="name" class="form-input" placeholder="Your full name" required />
+              <input type="text" id="name" name="name" class="form-input" placeholder="Your full name" required />
             </div>
 
             <div class="form-group">
               <label for="phone" class="form-label">Mobile Number <span class="req">*</span></label>
-              <input type="tel" id="phone" class="form-input" placeholder="10-digit mobile number" pattern="[0-9]{10}" required />
+              <input type="tel" id="phone" name="phone" class="form-input" placeholder="10-digit mobile number" pattern="[0-9]{10}" required />
             </div>
 
             <div class="form-group">
               <label for="email" class="form-label">Email Address (Optional)</label>
-              <input type="email" id="email" class="form-input" placeholder="yourname@example.com" />
+              <input type="email" id="email" name="email" class="form-input" placeholder="yourname@example.com" />
             </div>
 
             <div class="form-group">
               <label for="branch" class="form-label">Preferred Branch <span class="req">*</span></label>
-              <select id="branch" class="form-select" required>
+              <select id="branch" name="branch" class="form-select" required>
                 <option value="" disabled selected>Select a branch</option>
                 <option value="solapur">Solapur Main Branch (Railway Line)</option>
                 <option value="akkalkot">Akkalkot Branch (Kanda Bazaar)</option>
@@ -190,12 +197,12 @@
 
             <div class="form-group">
               <label for="date" class="form-label">Preferred Date <span class="req">*</span></label>
-              <input type="date" id="date" class="form-input" required />
+              <input type="date" id="date" name="date" class="form-input" required />
             </div>
 
             <div class="form-group">
               <label for="treatment" class="form-label">Treatment Category <span class="req">*</span></label>
-              <select id="treatment" class="form-select" required>
+              <select id="treatment" name="treatment" class="form-select" required>
                 <option value="" disabled selected>Select a service</option>
                 <option value="checkup">General Oral Checkup</option>
                 <option value="implants">Dental Implants</option>
@@ -210,7 +217,7 @@
 
             <div class="form-group full">
               <label for="message" class="form-label">Message / Symptoms / Request Details (Optional)</label>
-              <textarea id="message" class="form-textarea" placeholder="Describe symptoms or request timeslots..."></textarea>
+              <textarea id="message" name="message" class="form-textarea" placeholder="Describe symptoms or request timeslots..."></textarea>
             </div>
           </div>
 
@@ -249,6 +256,7 @@
             <li><a href="about.html#doctors">About Doctors</a></li>
             <li><a href="treatments.html">Our Treatments</a></li>
             <li><a href="gallery.html">Smile Gallery</a></li>
+            <li><a href="blog.html">Blog</a></li>
             <li><a href="contact.html">Contact Us</a></li>
           </ul>
         </div>

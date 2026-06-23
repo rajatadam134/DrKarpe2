@@ -272,22 +272,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ---- FORM VALIDATION (placeholder) ---- */
+  /* ---- FORM SUBMISSION (FormSubmit.co) ---- */
   const apptForm = document.getElementById('appt-form');
   if (apptForm) {
-    apptForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      // Placeholder: FormSubmit integration goes here
-      // Replace action attr on form with https://formsubmit.co/smile@drkarpe.com
+    apptForm.addEventListener('submit', () => {
+      // Let the form submit naturally to FormSubmit.co.
+      // We change the button text to show feedback while the page transitions.
       const btn = apptForm.querySelector('[type="submit"]');
-      const original = btn.textContent;
-      btn.textContent = 'Request Sent ✓';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.disabled = false;
-        apptForm.reset();
-      }, 3500);
+      if (btn) {
+        btn.textContent = 'Submitting Request...';
+        btn.disabled = true;
+      }
     });
   }
 
