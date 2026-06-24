@@ -272,17 +272,68 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  /* ---- FORM SUBMISSION (FormSubmit.co) ---- */
+  /* ---- FORM SUBMISSION (FormSubmit.co - AJAX) ---- */
   const apptForm = document.getElementById('appt-form');
   if (apptForm) {
-    apptForm.addEventListener('submit', () => {
-      // Let the form submit naturally to FormSubmit.co.
-      // We change the button text to show feedback while the page transitions.
+    apptForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
       const btn = apptForm.querySelector('[type="submit"]');
+      const originalBtnText = btn ? btn.textContent : 'Submit Appointment Request';
+      
       if (btn) {
         btn.textContent = 'Submitting Request...';
         btn.disabled = true;
       }
+
+      // Prepare form data
+      const formData = new FormData(apptForm);
+      const actionUrl = apptForm.getAttribute('action').replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+      // Submit via AJAX Fetch API
+      fetch(actionUrl, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success === 'true' || data.success === true) {
+          const clientName = apptForm.querySelector('#name').value || 'Patient';
+          const clientPhone = apptForm.querySelector('#phone').value || '';
+          
+          apptForm.innerHTML = `
+            <div class="form-success-message" style="text-align: center; padding: 2rem 0; animation: fadeInUp 0.6s ease forwards;">
+              <div style="width: 4rem; height: 4rem; background: rgba(74, 144, 164, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto; color: var(--accent);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <h3 class="display-heading display-sm" style="margin-bottom: 0.5rem; color: var(--black);">Request Submitted!</h3>
+              <p class="body-md" style="color: var(--gray-muted); max-width: 28rem; margin: 0 auto 1.5rem auto;">
+                Thank you, <strong>${clientName}</strong>. Your appointment request has been received. Our desk receptionist will call you at <strong>${clientPhone}</strong> shortly to confirm your slot.
+              </p>
+              <button type="button" class="btn btn-outline" onclick="window.location.reload()" style="margin: 0 auto;">Book Another Slot</button>
+            </div>
+          `;
+        } else {
+          alert('Submission failed: ' + (data.message || 'Unknown error occurred.'));
+          if (btn) {
+            btn.textContent = originalBtnText;
+            btn.disabled = false;
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error submitting form:', error);
+        alert('Something went wrong. Please check your internet connection and try again.');
+        if (btn) {
+          btn.textContent = originalBtnText;
+          btn.disabled = false;
+        }
+      });
     });
   }
 
