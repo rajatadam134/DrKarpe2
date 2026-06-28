@@ -215,5 +215,129 @@
   </footer>
 
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/sanity.js"></script>
+  <script src="assets/js/chatbot.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const query = `*[_type == "post"] | order(publishedAt desc) {
+        title,
+        slug,
+        category,
+        excerpt,
+        mainImage,
+        publishedAt
+      }`;
+      
+      const blogMain = document.querySelector(".blog-main");
+      const recentList = document.querySelector(".recent-posts-list");
+      
+      let renderedLive = false;
+      
+      const renderPostsList = (postsList) => {
+        if (!postsList || postsList.length === 0) return;
+        
+        // Render the articles in the main section
+        blogMain.innerHTML = postsList.map(post => {
+          const postSlug = post.slug && post.slug.current ? post.slug.current : "";
+          const isFallback = fallbackPosts.find(p => p.slug.current === postSlug);
+          const linkHref = isFallback ? isFallback.staticUrl : `blog-post.html?slug=${postSlug}`;
+          
+          let imgUrl = "assets/img/blog/get-it-done.jpg"; // Safe default image
+          if (post.mainImage) {
+            imgUrl = buildImageUrl(post.mainImage);
+          } else if (post.mainImageUrl) {
+            imgUrl = post.mainImageUrl;
+          } else if (isFallback && isFallback.mainImageUrl) {
+            imgUrl = isFallback.mainImageUrl;
+          }
+          
+          const categoryText = post.category || "General";
+          const excerptText = post.excerpt || "Read this educational article to learn more about advanced diagnostics and oral care.";
+
+          return `
+            <article class="blog-card reveal">
+              <div class="blog-card-img">
+                <img src="${imgUrl}" alt="${post.title || 'Blog Post'}" loading="lazy" />
+              </div>
+              <div class="blog-card-body">
+                <div class="blog-meta">
+                  <span class="blog-category">${categoryText}</span>
+                  ${post.publishedAt ? `<time datetime="${post.publishedAt}">${formatDate(post.publishedAt)}</time>` : ''}
+                </div>
+                <h3 class="blog-card-title">
+                  <a href="${linkHref}">${post.title || 'Untitled Post'}</a>
+                </h3>
+                <p class="blog-card-desc">${excerptText}</p>
+                <div style="margin-top: 1rem;">
+                  <a href="${linkHref}" class="btn btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.9rem;">Read Article</a>
+                </div>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        // Render recent articles list in the sidebar
+        recentList.innerHTML = postsList.slice(0, 3).map(post => {
+          const postSlug = post.slug && post.slug.current ? post.slug.current : "";
+          const isFallback = fallbackPosts.find(p => p.slug.current === postSlug);
+          const linkHref = isFallback ? isFallback.staticUrl : `blog-post.html?slug=${postSlug}`;
+          return `
+            <li class="recent-post-item">
+              <a href="${linkHref}" class="recent-post-link">${post.title || 'Untitled Post'}</a>
+            </li>
+          `;
+        }).join('');
+
+        // Re-initialize Scroll Reveal Observer for the new dynamic cards
+        const newReveals = blogMain.querySelectorAll('.reveal');
+        if (newReveals.length > 0) {
+          const dynamicRevealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                const siblings = entry.target.parentElement.querySelectorAll('.reveal');
+                let idx = 0;
+                siblings.forEach((s, j) => { if (s === entry.target) idx = j; });
+                setTimeout(() => {
+                  entry.target.classList.add('visible');
+                }, idx * 80);
+                dynamicRevealObserver.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+          newReveals.forEach(el => dynamicRevealObserver.observe(el));
+        }
+      };
+
+      // Only execute dynamic fetch if Sanity projectId is configured and is not the placeholder
+      if (sanityConfig.projectId && sanityConfig.projectId !== 'YOUR_PROJECT_ID') {
+        try {
+          const posts = await fetchSanity(query);
+          
+          let allPosts = [];
+          if (posts && posts.length > 0) {
+            const sanitySlugs = new Set(posts.map(p => p.slug && p.slug.current).filter(Boolean));
+            const filteredFallbacks = fallbackPosts.filter(p => !sanitySlugs.has(p.slug.current));
+            allPosts = [...posts, ...filteredFallbacks];
+          } else {
+            allPosts = fallbackPosts;
+          }
+
+          // Sort posts by date descending (latest at top)
+          allPosts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+          
+          renderPostsList(allPosts);
+          renderedLive = true;
+        } catch (err) {
+          console.error("Failed to load CMS blog posts, using hardcoded static fallback.", err);
+        }
+      }
+      
+      // Fallback: If we couldn't render live (unconfigured or failed), make sure fallbackPosts are rendered
+      if (!renderedLive) {
+        renderPostsList(fallbackPosts);
+      }
+    });
+  </script>
 </body>
 </html>

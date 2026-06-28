@@ -1,0 +1,12 @@
+# Dependency directories
+node_modules/
+studio/node_modules/
+
+# Sanity local cache & output
+.sanity/
+studio/.sanity/
+studio/dist/
+
+# OS files
+.DS_Store
+Thumbs.db
