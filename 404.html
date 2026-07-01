@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, follow" />
+  <title>Page Not Found | Dr. Karpe's Dental Clinic</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  
+  <script>
+    // Smart Router: Intercept legacy bookmark patterns and redirect to unified sections
+    (function () {
+      const path = window.location.pathname.toLowerCase();
+      if (path.includes('implant')) {
+        window.location.replace('treatments.html#implants');
+      } else if (path.includes('canal') || path.includes('rct')) {
+        window.location.replace('treatments.html#rct');
+      } else if (path.includes('cosmetic')) {
+        window.location.replace('treatments.html#cosmetic');
+      } else if (path.includes('smile') || path.includes('veneer')) {
+        window.location.replace('treatments.html#smile-design');
+      } else if (path.includes('brace') || path.includes('align') || path.includes('ortho')) {
+        window.location.replace('treatments.html#braces');
+      } else if (path.includes('child') || path.includes('pediatric') || path.includes('kid')) {
+        window.location.replace('treatments.html#pediatric');
+      } else if (path.includes('gum') || path.includes('periodont')) {
+        window.location.replace('treatments.html#gum-therapy');
+      } else if (path.includes('jewel')) {
+        window.location.replace('treatments.html#jewellery');
+      } else if (path.includes('surg') || path.includes('extract') || path.includes('remov')) {
+        window.location.replace('treatments.html#surgery');
+      } else if (path.includes('replac') || path.includes('denture') || path.includes('bridge')) {
+        window.location.replace('treatments.html#replacement');
+      }
+    })();
+  </script>
+</head>
+<body style="background: #111827; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; color: #fff;">
+
+  <div style="text-align: center; max-width: 32rem; animation: fadeInUp 0.8s ease;">
+    <!-- Clinic Logo -->
+    <a href="index.html" style="display: inline-block; margin-bottom: 2rem;">
+      <img src="assets/img/logo.png" alt="Dr. Karpe's Logo" style="height: 3rem; filter: brightness(0) invert(1);" />
+    </a>
+
+    <!-- Big Branded 404 Symbol -->
+    <div style="font-size: 6rem; font-weight: 800; color: #4A90A4; line-height: 1; letter-spacing: -0.05em; margin-bottom: 1.5rem;">404</div>
+
+    <h1 class="display-heading display-sm" style="color: #fff; margin-bottom: 1rem; letter-spacing: -0.02em;">
+      Oops! Page Not Found
+    </h1>
+    
+    <p class="body-md" style="color: #9CA3AF; margin-bottom: 2.5rem; line-height: 1.6;">
+      We couldn't find the page you were looking for. The link might be broken or the page may have moved. Let's get you back on track to your healthy smile!
+    </p>
+
+    <!-- Navigation Options -->
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="index.html" class="btn btn-primary" style="padding: 0.8rem 1.75rem;">
+        Go Back Home
+      </a>
+      <a href="treatments.html" class="btn btn-outline" style="color: #fff; border-color: rgba(255,255,255,0.2); padding: 0.8rem 1.75rem;">
+        View Treatments
+      </a>
+    </div>
+
+    <!-- Contact support footnote -->
+    <p style="margin-top: 4rem; font-size: 0.85rem; color: #6B7280;">
+      Need assistance? Contact our Solapur Clinic: <a href="tel:+919405549094" style="color: #4A90A4; text-decoration: none;">+91 94055-49094</a>
+    </p>
+  </div>
+
+  <script src="assets/js/chatbot.js"></script>
+</body>
+</html>

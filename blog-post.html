@@ -273,8 +273,9 @@
         }
 
         // Render Title
-        document.getElementById("post-title").innerHTML = post.title.replace(" ", "<br/>");
-        document.getElementById("breadcrumb-title").textContent = post.title;
+        const displayTitle = post.title || 'Untitled Article';
+        document.getElementById("post-title").innerHTML = displayTitle.replace(" ", "<br/>");
+        document.getElementById("breadcrumb-title").textContent = displayTitle;
 
         // Render Main Image
         if (post.mainImage) {

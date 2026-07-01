@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Read educational articles about oral care, dental implants, child dentistry, and aesthetic smile designs from the experts at Dr. Karpe's Dental Clinic, Solapur." />
+  <meta name="description" content="Read educational oral care articles, dental advice, and smile design tips from the experts at Dr. Karpe's Dental Clinic in Solapur." />
   <meta name="keywords" content="dental blog, dentist advice solapur, save tooth decay, tooth replacement side effects, children teeth care" />
   <title>Clinical Blog &amp; Oral Health Tips | Dr. Karpe's Dental Clinic Solapur</title>
   <link rel="stylesheet" href="assets/css/style.css" />
@@ -323,8 +323,12 @@
             allPosts = fallbackPosts;
           }
 
-          // Sort posts by date descending (latest at top)
-          allPosts.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+          // Sort posts by date descending (latest at top) with safety fallback for missing dates
+          allPosts.sort((a, b) => {
+            const dateA = a.publishedAt ? new Date(a.publishedAt) : new Date(0);
+            const dateB = b.publishedAt ? new Date(b.publishedAt) : new Date(0);
+            return dateB - dateA;
+          });
           
           renderPostsList(allPosts);
           renderedLive = true;
